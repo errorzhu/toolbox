@@ -1,0 +1,58 @@
+<project name="bdp agent" default="dist" basedir=".">
+  <description>
+    bdp agent 
+  </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="dist" location="dist"/>
+  <property name="archive_base_name" value="bdp_agent"/>  
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${dist}"/>
+    <loadfile property="version"
+      srcFile="VERSION"/>
+    <property name="package" location="${dist}/${archive_base_name}_${version}"/>
+  </target>
+
+
+  <target name="dist" depends="init"
+        description="generate the distribution">
+
+    <copy file="README.md" tofile="${package}/README.md"/>
+    <copy file="requirements.txt" tofile="${package}/requirements.txt"/>
+    <copy todir="${package}/src">
+       <fileset dir="src/"/>
+    </copy>
+    <copy todir="${package}/bin">
+       <fileset dir="bin/"/>
+    </copy>
+    <copy todir="${package}/playbooks">
+       <fileset dir="playbooks/"/>
+    </copy>
+    <copy todir="${package}/etc">
+       <fileset dir="etc/"/>
+    </copy>
+    <copy todir="${package}/logs">
+       <fileset dir="logs/"/>
+    </copy>
+    <tar destfile="${dist}/${archive_base_name}_${version}.tar.gz" compression="gzip">
+       <tarfileset dir="${package}/.." filemode="755">
+       </tarfileset>
+    </tar>
+    
+  </target>
+
+  <target name="clean"
+        description="clean up">
+
+
+    <delete verbose="true" includeEmptyDirs="true">
+       <fileset dir="${src}" includes="**/__pycache__/"/>
+    </delete>
+
+    <delete dir="${dist}"/>
+  </target>
+</project>

@@ -1,0 +1,19 @@
+---
+tags:
+  - 元信息相关接口
+description: 获取安装包信息
+responses:
+    200:
+      description: OK
+      example: {'result': [{'id': 1, 'compression_suffix': 'tar.gz', 'os_version': 'linux-amd64', 'package_name': 'prometheus', 'package_version': '2.27.1'}]}
+
+
+#basePath: /v1
+#paths:
+#  /packages:
+#    get:
+#      summary: 获取安装包信息
+#
+#      produces:
+#        - application/json
+
