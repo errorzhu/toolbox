@@ -1,0 +1,22 @@
+hadoop 3.1.0 arm下编译问题解决
+
+mvn  -X -e   package -Pdist,native -DskipTests  -Dtar
+
+
+1 hadoop common
+
+修改 /opt/hadoop-3.1.0-src/hadoop-common-project/hadoop-common/HadoopCommon.cmake
+将  -mfloat-abi=softfp   改成 -mfloat-abi=hard
+
+2 hadoop mapreduce
+
+cd /opt/hadoop-3.1.0-src/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/lib
+wget https://issues.apache.org/jira/secure/attachment/12693989/HADOOP-11505.001.patch
+patch < HADOOP-11505.001.patch 
+
+
+3 依赖问题
+需要手动下载
+/maven/m2/repository/com/amazonaws/DynamoDBLocal/1.11.86
+/maven/m2/repository/org/eclipse/m2e/lifecycle-mapping/1.0.0
+有一些阿里云没有的包，maven修改成中央仓库下载

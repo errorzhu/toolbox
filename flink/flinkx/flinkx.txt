@@ -1,0 +1,45 @@
+4种模式
+local
+	使用自己封装的flink，单进程
+standalone
+	提交到本地启动的flink 集群
+yarn-session
+	在yarn中常驻一个flink集群，提交到这个session
+yarn per job
+	每次在yarn中创建一个集群
+	
+	
+注意
+	standalone 每台flink 节点要有flinkx 的插件
+	flink 访问hadoop lib中要下载对应的shade
+	
+命令
+/opt/flink/bin/yarn-session.sh -n 2 -jm 1024 -tm 1024 -qu root.default -ship /opt/flinkx/syncplugins/
+
+指标监控
+http://vm-centos75-152:8088/proxy/application_1619592843438_0077/jobs/a85944ae558100259e1ab847b0b6b4b7/accumulators
+
+export HADOOP_CLASSPATH=`hadoop classpath`
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+
+
+/opt/flinkx/bin/flinkx \
+-mode local \
+-job /opt/flinkx/test_conf/hdfs2mysql_1000w.json \
+-pluginRoot /opt/flinkx/syncplugins \
+-flinkconf /opt/flink-1.10.1/conf
+-------------------------------------------------------
+/opt/flinkx/bin/flinkx  \
+-mode standalone \
+-job /opt/flinkx/test_conf/hdfs2mysql_1w.json \
+-pluginRoot /opt/flinkx/syncplugins \
+-flinkconf /opt/flink-1.10.1/conf \
+-confProp "{\"flink.checkpoint.interval\":60000}"
+-------------------------------------------------------
+/opt/flinkx/bin/flinkx \
+-mode yarn \
+-job /opt/flinkx/test_conf/hdfs2mysql_1w.json  \
+-flinkconf /opt/flink-1.10.1/conf \
+-yarnconf /etc/hadoop/conf \
+-queue root.default \
+-appId application_1619592843438_0074

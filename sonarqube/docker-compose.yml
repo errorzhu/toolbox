@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  # database service: postgres
+  postgres:
+    image: bitnami/postgresql:latest
+    ports:
+    - 5432:5432
+    networks:
+      - sonarnet
+    volumes:
+      - /opt/sonarqube/postgres/postgresql/:/var/lib/postgresql
+      - /opt/sonarqube/postgres/data/:/var/lib/postgresql/data
+    environment:
+        POSTGRES_USER: sonar
+        POSTGRES_PASSWORD: sonar
+        POSTGRESQL_DATABASE: sonar
+    restart: "no"
+
+    
+  # Security service: sonarqube
+  sonarqube:
+    image: sonarqube:7.9.6-community
+    ports:
+      - "9000:9000"
+    networks:
+      - sonarnet
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+      - sonar_log:/opt/sonarqube/log
+      - sonar_extensions:/opt/sonarqube/extensions
+      - sonar_conf:/opt/sonarqube/conf
+    environment:
+      - sonar.jdbc.url=jdbc:postgresql://postgres:5432/sonar
+    restart: "no"
+
+networks:
+  sonarnet:
+    driver: bridge
+    
+volumes:
+  sonar_data:
+  sonar_conf:
+  sonar_log:
+  sonar_extensions:
+

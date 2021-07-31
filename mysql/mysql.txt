@@ -1,0 +1,30 @@
+0 systemctl stop mysql
+
+1 vi /etc/my.cnf
+skip-grant-tables
+plugin-load-add = auth_socket.so
+
+systemctl start mysql
+
+2 mysql -uroot
+set global read_only=0
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'rooot' WITH GRANT OPTION;
+flush privilege
+
+
+
+debug
+mysql> select user,host,plugin ,authentication_string from user;
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+
+ALTER USER 'root'@'%' IDENTIFIED BY 'root';
+
+SHOW VARIABLES LIKE 'validate_password%';
+
+grant all privileges on *.* to 'root'@'localhost' identified by 'root' with grant option;
+
+
+
+maria
+set PASSWORD FOR 'root'@'localhost' = PASSWORD('root');

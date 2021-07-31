@@ -1,0 +1,72 @@
+{
+  "job": {
+    "content": [
+      {
+        "reader": {
+          "parameter": {
+            "username": "root",
+            "password": "123456",
+            "connection": [{
+              "jdbcUrl": ["jdbc:mysql://192.168.9.234:3306/benchmark?useSSL=false&useCursorFetch=true"],
+              "table": ["test_one_w"]
+            }],
+            "column": ["f1","f2","f3","f4","f5"],
+            "queryTimeOut": 1000,
+            "requestAccumulatorInterval": 2
+          },
+          "name": "mysqlreader"
+        },
+        "writer": {
+          "parameter": {
+            "path": "hdfs://hunterv-01:9820/data/mysql",
+            "fileName": "data",
+          "column" : [ {
+            "name": "col1",
+            "index" : 0,
+            "type" : "STRING"
+          }, {
+            "name": "col2",
+            "index" : 1,
+            "type" : "STRING"
+          } ,
+          {
+            "name": "col3",
+            "index" : 2,
+            "type" : "STRING"
+          }, {
+            "name": "col4",
+            "index" : 3,
+            "type" : "STRING"
+          },
+          {
+            "name": "col5",
+            "index" : 4,
+            "type" : "STRING"
+          }],
+            "writeMode": "overwrite",
+            "fieldDelimiter": ",",
+            "encoding": "utf-8",
+            "defaultFS": "hdfs://hunterv-01:9820",
+          "hadoopConfig" : {
+            "dfs.ha.namenodes.ns1" : "hunterv-01",
+            "dfs.namenode.rpc-address.ns1.nn2" : "hunterv-01:9820",
+            "dfs.client.failover.proxy.provider.ns1" : "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider",
+            "dfs.namenode.rpc-address.ns1.nn1" : "hunterv-01:9820",
+            "dfs.nameservices" : "ns1"
+          },
+            "fileType": "text"
+          },
+          "name": "hdfswriter"
+        }
+      }
+    ],
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "restore": {
+        "isRestore": false
+      }
+    }
+  }
+}

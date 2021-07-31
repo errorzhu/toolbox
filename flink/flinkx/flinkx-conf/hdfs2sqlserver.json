@@ -1,0 +1,71 @@
+{
+  "job": {
+    "content": [
+      {   "reader" : {
+        "parameter" : {
+          "path" : "/data/onew",
+          "hadoopConfig" : {
+            "dfs.ha.namenodes.ns1" : "hunterv-01",
+            "dfs.namenode.rpc-address.ns1.nn2" : "hunterv-01:9820",
+            "dfs.client.failover.proxy.provider.ns1" : "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider",
+            "dfs.namenode.rpc-address.ns1.nn1" : "hunterv-01:9820",
+            "dfs.nameservices" : "ns1"
+          },
+          "column" : [ {
+            "name": "col1",
+            "index" : 0,
+            "type" : "STRING"
+          }, {
+            "name": "col2",
+            "index" : 1,
+            "type" : "STRING"
+          } ,
+          {
+            "name": "col3",
+            "index" : 2,
+            "type" : "STRING"
+          }, {
+            "name": "col4",
+            "index" : 3,
+            "type" : "STRING"
+          },
+          {
+            "name": "col5",
+            "index" : 4,
+            "type" : "STRING"
+          }],
+          "defaultFS" : "hdfs://hunterv-01:9820",
+          "fieldDelimiter" : ",",
+          "fileType" : "text"
+        },
+        "name" : "hdfsreader"
+      },
+        "writer": {
+          "name": "sqlserverwriter",
+          "parameter": {
+            "username": "sa",
+            "password": "1234Server",
+            "connection": [
+              {
+                "jdbcUrl": "jdbc:jtds:sqlserver://192.168.9.235:1433/;DatabaseName=Test",
+                "table": ["benchmark"]
+              }
+            ],
+            "preSql": ["truncate table benchmark;"],
+            "writeMode": "insert",
+            "column": ["f1","f2","f3","f4","f5"],
+            "batchSize": 1000
+          }
+        }
+      }
+    ],
+    "setting": {
+      "speed": {
+        "channel": 1
+      },
+      "restore": {
+        "isRestore": false
+      }
+    }
+  }
+}
