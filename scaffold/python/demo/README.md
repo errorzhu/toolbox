@@ -1,4 +1,4 @@
-# bdp-agent
+# demo
 
 ## 依赖
 
@@ -6,7 +6,7 @@ python3.8
 
 ## 开发
 
-参考语雀 [python 统一开发环境](https://cosmobdai.yuque.com/cosmobdai/mml7tt/gafe75) 创建远程开发环境
+参考wiki 创建远程开发环境
 
 使用 requirements-dev.txt 下载所需依赖
 
